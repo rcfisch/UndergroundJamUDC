@@ -61,40 +61,63 @@ public class ItemsManager : MonoBehaviour{
     {
         if (leftHand){
             leftItemID = item;
-            leftItem = Instantiate(itemPrefabs[item], leftHandPoint.position, quaternion.identity);
+            leftItem = Instantiate(itemPrefabs[item], leftHandPoint);
         }
         else{
             rightItemID = item;
-            rightItem = Instantiate(itemPrefabs[item], rightHandPoint.position, quaternion.identity);
+            rightItem = Instantiate(itemPrefabs[item], rightHandPoint);
         }
     }
     
     private bool CheckForPlaceArea(long item)
     {
-        // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
-        var cam = Camera.main!.gameObject.transform;
-        RaycastHit hit;
-        Physics.Raycast(cam.position, cam.eulerAngles, out hit, findDistance, ignoreLayers);
-
+        var ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width/2,Screen.height/2));
+        
+        Physics.Raycast(ray, out var hit, findDistance);
+        Debug.DrawRay(ray.origin, ray.direction, Color.blue, 10, true);
         if (hit.transform){
-            if (hit.transform.gameObject.GetComponent<PlaceArea>()){
-                return hit.transform.gameObject.GetComponent<PlaceArea>().AcceptItem(item);
+            if (hit.transform.gameObject){
+                var pa = hit.transform.gameObject.GetComponent<PlaceArea>();
+                if (pa){
+                    return pa.AcceptItem(item);
+                }
+                else{
+                    Debug.Log("No Get Area");
+                }
+            }
+            else{
+                Debug.Log("GameObject is null");
             }
         }
+        else{
+            Debug.Log("Transform is null");
+        }
+
         return false;
     }
     private long CheckForItem()
     {
-        // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
-        var cam = Camera.main!.gameObject.transform;
-        RaycastHit hit;
-        Physics.Raycast(cam.position, cam.eulerAngles, out hit, findDistance, ignoreLayers);
+        var ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width/2,Screen.height/2));
+        
+        Physics.Raycast(ray, out var hit, findDistance);
+        Debug.DrawRay(ray.origin, ray.direction, Color.blue, 10, true);
         if (hit.transform){
-            if (hit.transform.gameObject.GetComponent<PlaceArea>()){
-                return hit.transform.gameObject.GetComponent<GetArea>().GetItem();
+            if (hit.transform.gameObject){
+                var item = hit.transform.gameObject.GetComponent<GetArea>();
+                if (item){
+                    return item.GetItem();
+                }
+                else{
+                    Debug.Log("No Get Area");
+                }
+            }
+            else{
+                Debug.Log("GameObject is null");
             }
         }
-
+        else{
+            Debug.Log("Transform is null");
+        }
         return -1;
     }    
 }

@@ -1,3 +1,4 @@
 public enum Item{
-    battery=0
+    batteryEmpty=0,
+    batteryCharged=1
 }

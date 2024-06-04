@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour{
         currentRotation.y = Mathf.Clamp(currentRotation.y, -cameraClampAngle, cameraClampAngle);
 
         camHolder.position = camPoint.position;
-        camHolder.rotation = Quaternion.Euler(currentRotation.y,currentRotation.x,0);
+        camHolder.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
         transform.rotation = Quaternion.Euler(0, currentRotation.x, 0);
     }
     

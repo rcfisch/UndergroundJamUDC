@@ -2,8 +2,8 @@ using UnityEngine;
 using System;
 
 public class GetArea : MonoBehaviour{
-    [SerializeField] private bool isInfinite;
-    [SerializeField] private long item;
+    public bool isInfinite;
+    public long item;
     
     public long GetItem()
     {
