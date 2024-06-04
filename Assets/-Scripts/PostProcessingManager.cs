@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,9 +10,9 @@ public class PostProcessingManager : MonoBehaviour{
     [SerializeField] private Volume deathVolume;
     [SerializeField] private Volume normalVolume;
     
-    private float lerpToWeight;
-    private float weight;
-    private float time;
+    private float lerpToWeight = 0;
+    private float weight = 0;
+    private float time = 1;
     private void Awake()
     {
         if (instance != null)
@@ -36,6 +34,6 @@ public class PostProcessingManager : MonoBehaviour{
     public static void SetDeathWeight(float weight, float time)
     {
         instance.lerpToWeight = Mathf.Clamp(weight, 0, 1);
-        instance.time = time;
+        instance.time = Mathf.Clamp(time, 0.000001f, 1000);
     }
 }
